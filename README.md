@@ -1,14 +1,15 @@
 # Jazzy Framework
 
-Jazzy is a lightweight web framework for Java. It provides a minimal and easy-to-understand API for developing fast web applications.
+Jazzy is a lightweight web framework for Java. It provides a minimal and easy-to-understand API for developing fast web applications with a structure inspired by Laravel.
 
 ## Features
 
 - Simple and intuitive API
 - Routing system with HTTP method support (GET, POST, PUT, DELETE, PATCH)
 - URL path parameter support
-- Automatic parameter mapping
-- Simple metrics collection and reporting
+- Request validation with comprehensive rules
+- JSON response generation with fluent API
+- Metrics collection and reporting
 
 ## Quick Start
 
@@ -16,29 +17,29 @@ To develop a web application with Jazzy, you can follow this example code:
 
 ```java
 // App.java
-package com.example;
+package examples.basic;
 
 import jazzyframework.core.Config;
 import jazzyframework.core.Server;
 import jazzyframework.routing.Router;
 
-public class App {
-    public static void main(String[] args) {
-        // Create configuration
+public class App 
+{
+    public static void main( String[] args )
+    {
         Config config = new Config();
         config.setEnableMetrics(true); // "/metrics" endpoint is automatically added
         config.setServerPort(8088);
-        
-        // Create router
+
         Router router = new Router();
         
-        // Define routes
-        router.GET("/user/{id}", "getUserById", UserController.class);
-        router.POST("/user/{id}", "updateUser", UserController.class);
+        // User routes
+        router.GET("/users/{id}", "getUserById", UserController.class);
         router.GET("/users", "getAllUsers", UserController.class);
-        router.DELETE("/user/{id}", "deleteUser", UserController.class);
-        router.PUT("/user/{id}", "putUser", UserController.class);
-
+        router.POST("/users", "createUser", UserController.class);
+        router.PUT("/users/{id}", "updateUser", UserController.class);
+        router.DELETE("/users/{id}", "deleteUser", UserController.class);
+        
         // Start the server
         Server server = new Server(router, config);
         server.start(config.getServerPort());
@@ -46,37 +47,77 @@ public class App {
 }
 
 // UserController.java
-package com.example;
+package examples.basic;
+
+import static jazzyframework.http.ResponseFactory.response;
+import jazzyframework.http.Request;
+import jazzyframework.http.Response;
+import jazzyframework.http.validation.ValidationResult;
+import java.util.Map;
 
 public class UserController {
-    // Method with path parameter
-    public String getUserById(String id) {
-        return "User ID: " + id;
+    
+    public Response getUserById(Request request) {
+        String id = request.path("id");
+        
+        return response().json(
+            "id", id,
+            "name", "Fletcher Davidson",
+            "email", "fletcher@example.com"
+        );
     }
 
-    // Method without parameters
-    public String getAllUsers() {
-        return "All users";
+    public Response getAllUsers(Request request) {
+        int page = request.queryInt("page", 1);
+        int limit = request.queryInt("limit", 10);
+        
+        return response().json(
+            "users", JSON.array(
+                JSON.of("id", "user-1", "name", "Fletcher Davidson"),
+                JSON.of("id", "user-2", "name", "Jane Smith")
+            ),
+            "page", page,
+            "limit", limit,
+            "total", 2
+        );
     }
 
-    // Method with path parameter and request body
-    public String updateUser(String id, String requestBody) {
-        return "Updated user " + id + " with data: " + requestBody;
+    public Response createUser(Request request) {
+        // Validate the request
+        ValidationResult result = request.validator()
+            .field("name").required().minLength(3).maxLength(50)
+            .field("email").required().email()
+            .field("password").required().minLength(8)
+            .validate();
+        
+        if (!result.isValid()) {
+            return response().json(
+                "status", "error",
+                "message", "Validation failed",
+                "errors", result.getAllErrors()
+            ).status(400);
+        }
+        
+        Map<String, Object> userData = request.parseJson();
+        
+        // Generate a new ID
+        String newId = "user-" + System.currentTimeMillis();
+        userData.put("id", newId);
+        
+        return response().success("User created successfully", userData).status(201);
     }
     
-    // Method for handling DELETE requests
-    public String deleteUser(String id) {
-        return "Deleted user " + id;
-    }
-    
-    // Method for handling PUT requests
-    public String putUser(String id, String requestBody) {
-        return "Updated user " + id + " with data: " + requestBody;
-    }
+    // Additional methods for update and delete operations
 }
 ```
 
 For a more detailed example, check the `src/main/java/examples/basic` directory.
+
+## Documentation
+
+Complete documentation for Jazzy Framework is available on our GitHub Pages site:
+
+[Jazzy Framework Documentation](https://canermastan.github.io/jazzy-framework/)
 
 ## Development
 
@@ -103,6 +144,12 @@ mvn exec:java -Dexec.mainClass="examples.basic.App"
 - `routing/`: Routing system
   - `Router.java`: Route management
   - `Route.java`: Route data structure
+- `http/`: HTTP handling
+  - `Request.java`: Request handling
+  - `Response.java`: Response building
+  - `ResponseFactory.java`: Factory for creating responses
+  - `JSON.java`: JSON creation utilities
+  - `validation/`: Validation system
 - `controllers/`: System controllers
   - `MetricsController.java`: Metrics reporting
 - `examples/`: Example applications
@@ -115,36 +162,31 @@ Unit tests have been written to ensure the reliability of the framework. Test co
 - `RouterTest`: Tests for adding routes, finding routes, and path parameter operations
 - `RouteTest`: Tests for the route data structure
 - `MetricsTest`: Tests for metric counters and calculations
-- `MetricsControllerTest`: Tests for the metrics controller
+- `ValidationTest`: Tests for the validation system
+- `ResponseFactoryTest`: Tests for response generation
 
 When adding new features or modifying existing code, it's important to update existing tests or add new tests to maintain the stability of the framework.
 
-## Vision and Roadmap
+## Roadmap
 
-Jazzy aims to simplify Java web development with a low learning curve, inspired by the elegance and developer-friendliness of Laravel in the PHP world. Our mission is to create a framework that enables developers to quickly build production-ready applications without the typical complexity associated with Java web frameworks.
+Jazzy is actively being developed with the following features planned for upcoming releases:
 
-We believe Java development doesn't have to be verbose or complicated. By bringing Laravel-like simplicity and expressiveness to Java, we want to make web development more accessible and enjoyable for Java developers.
+### Upcoming Features
 
-Key principles:
-- Simplicity over complexity
-- Convention over configuration
-- Rapid development without sacrificing performance
-- Low learning curve for developers new to Java or web development
+- **Middleware System**: Support for request/response middleware chains
+- **Database Integration**: jOOQ integration for type-safe SQL queries
+- **Dependency Injection**: Custom DI container (PococContainer) with `@Named` and `@Qualified` annotations
+- **Security Framework**: Authentication and authorization system
+- **Caching System**: Redis integration for high-performance caching
+- **API Documentation**: Swagger/OpenAPI integration
+- **WebSocket Support**: Real-time bidirectional communication
+- **Task Scheduling**: Cron-style job scheduling
+- **Monitoring Tools**: Health checks and system monitoring
+- **File Storage**: Cloud storage integrations (S3, etc)
+- **Event System**: Pub/sub event handling
+- **CLI Tools**: Command line tools for code generation
+- **And More...**: Stay tuned for additional features!
 
-## Future Features
-
-### Core Improvements
-- JSON support with automatic serialization/deserialization
-- Simple template engine
-- Middleware system
-- Form validation
-- Database integration with simple ORM
-
-### Developer Experience
-- Centralized routing configuration (similar to Laravel's routes.php)
-- Authentication system with easy JWT integration
-- Simple project setup and scaffolding
-- Comprehensive documentation with examples
 
 ## Contributing
 
@@ -152,18 +194,10 @@ Key principles:
 
 We believe that open source thrives with community involvement, and we appreciate all types of contributions, whether you're fixing a typo, improving documentation, adding a new feature, or reporting a bug.
 
-### Ways to Contribute
-
-- **Code Contributions**: New features, bug fixes, performance improvements
-- **Documentation**: Improving README, adding examples, writing tutorials
-- **Testing**: Adding new tests, improving existing tests
-- **Feedback**: Reporting bugs, suggesting features
-- **Spreading the Word**: Telling others about Jazzy
-
 ### Getting Started
 
 1. Fork the project
-2. Clone your fork (`git clone https://github.com/yourusername/jazzy.git`)
+2. Clone your fork (`git clone https://github.com/canermastan/jazzy-framework.git`)
 3. Create a feature branch (`git checkout -b feature/amazing-feature`)
 4. Make your changes (don't forget to add tests if applicable)
 5. Run tests to make sure everything works (`mvn test`)

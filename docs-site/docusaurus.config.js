@@ -18,7 +18,7 @@ const config = {
   url: 'https://jazzyframework.com',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: '/jazzy-framework/',
 
   // GitHub pages deployment config.
   organizationName: 'canermastan', // Usually your GitHub org/user name.
