@@ -24,7 +24,7 @@ const config = {
   organizationName: 'canermastan', // Usually your GitHub org/user name.
   projectName: 'jazzy-framework', // Usually your repo name.
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
@@ -44,15 +44,6 @@ const config = {
           // Please change this to your repo.
           editUrl:
             'https://github.com/canermastan/jazzy-framework/tree/main/jazzy/docs/',
-        },
-        blog: {
-          showReadingTime: true,
-          feedOptions: {
-            type: ['rss', 'atom'],
-            xslt: true,
-          },
-          editUrl:
-            'https://github.com/canermastan/jazzy-framework/tree/main/jazzy/blog/',
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -99,7 +90,6 @@ const config = {
             label: 'Responses',
             position: 'left'
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
           {
             href: 'https://github.com/canermastan/jazzy-framework',
             label: 'GitHub',
@@ -151,10 +141,6 @@ const config = {
           {
             title: 'More',
             items: [
-              {
-                label: 'Blog',
-                to: '/blog',
-              },
               {
                 label: 'GitHub',
                 href: 'https://github.com/canermastan/jazzy-framework',
